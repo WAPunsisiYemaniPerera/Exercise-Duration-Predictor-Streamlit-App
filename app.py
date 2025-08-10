@@ -9,7 +9,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 # Load dataset and model (cache for performance)
 @st.cache_data
 def load_data():
-    df = pd.read_csv("E:/HORIZON CAMPUS/AASEMESTER6/Intelligent Systems/Exercise_Recommendation_System/data/health_fitness_dataset.csv")
+    df = pd.read_csv("data/health_fitness_dataset.csv")
     return df
 
 @st.cache_resource
