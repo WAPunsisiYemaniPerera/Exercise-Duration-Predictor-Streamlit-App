@@ -1,63 +1,61 @@
 🏃‍♂️ Exercise Duration Predictor Web App
-A machine learning-powered web application built with Streamlit that predicts the recommended daily exercise duration (in minutes) needed for a person to burn a specified number of calories based on personal attributes and exercise type.
+A machine learning–powered Streamlit web application that predicts the recommended daily exercise duration (minutes) needed for a person to burn a specified number of calories, based on personal attributes and exercise type.
 
 📖 Project Overview
-This project uses a dataset inspired by the fitness data to build regression models that predict exercise duration required to burn target calories. The model considers factors such as age, gender, weight, height, activity level, exercise type, and calorie goal.
+This project uses a fitness-inspired dataset to build regression models that predict the exercise duration required to reach a calorie target. The model considers factors such as age, gender, weight, height, activity level, exercise type, and calorie goal.
 
-The web app provides an interactive interface where users can explore the dataset, visualize relationships, and enter their own data to receive a personalized exercise duration recommendation.
-
-The aim is to promote healthier lifestyles by making exercise planning accessible, personalized, and data-driven.
+The web app offers an interactive interface where users can explore the dataset, view visualizations, and enter their own data to receive a personalized exercise duration recommendation. The goal is to make exercise planning more accessible and data-driven.
 
 ✨ Features
-✅ Interactive Data Exploration: Filter and explore dataset samples with summary statistics and data types.
+✅ Interactive Data Exploration — Filter and inspect dataset samples, view summary statistics and data types.
 
-✅ Rich Visualizations: Includes histograms, scatter plots, and boxplots showcasing data distributions and relationships.
+✅ Rich Visualizations — Histograms, scatter plots, and boxplots to explore distributions and relationships.
 
-✅ Real-time Prediction: Input your personal details and exercise preferences to instantly predict the required exercise duration.
+✅ Real-time Prediction — Enter personal details and exercise preferences to get an instant duration recommendation.
 
-✅ Model Performance Insights: Compare multiple regression models using metrics like MSE, RMSE, and R² with visual comparisons.
+✅ Model Performance Insights — Compare regression models using MSE, RMSE, and R² with visual comparisons.
 
-✅ User-Friendly Interface: Clean, organized multi-page app using Streamlit’s sidebar navigation and responsive widgets.
+✅ User-Friendly Interface — Clean multi-page app using Streamlit’s sidebar navigation and responsive widgets.
 
 🛠️ Technologies Used
 Python 3.x
 
-Streamlit: Web app framework for interactive dashboards.
+Streamlit — interactive web app framework
 
-Pandas & NumPy: Data manipulation and analysis.
+Pandas & NumPy — data manipulation
 
-Scikit-learn: Machine learning model training and evaluation.
+Scikit-learn — model training & evaluation
 
-XGBoost & LightGBM: Gradient boosting regression models.
+XGBoost & LightGBM — gradient boosting regressors
 
-Matplotlib, Seaborn & Plotly: Data visualization libraries.
+Matplotlib, Seaborn & Plotly — visualizations
 
-Pickle: Model serialization and loading.
+Pickle — model serialization
 
 🧪 Model Training Notebook
-The notebook notebooks/model_training.ipynb contains:
+See notebooks/model_training.ipynb for:
 
-Exploratory Data Analysis (EDA): Insightful visualizations and data quality checks.
+EDA and data quality checks
 
-Data Cleaning: Handling missing values, duplicates, and feature engineering (e.g., BMI and MET calculation).
+Cleaning and feature engineering (e.g., BMI, MET calculations)
 
-Model Training: Training and comparing multiple regression algorithms including Random Forest, MLP, SVM, XGBoost, and LightGBM.
+Training and comparing models (Random Forest, MLP, SVM, XGBoost, LightGBM)
 
-Model Evaluation: Metrics such as MSE, RMSE, and R² used to select the best performing model.
+Evaluation (MSE, RMSE, R²) and model selection
 
-Model Saving: Serialization of the trained model for deployment.
+Model serialization for deployment
 
 🧾 Input Features for Prediction
-Age: User’s age (18–60 years)
+Age: 18–60 years
 
-Gender: Male or Female
+Gender: Male / Female
 
-Weight (kg): Body weight in kilograms
+Weight (kg)
 
-Height (cm): Height in centimeters
+Height (cm)
 
-Activity Level: Sedentary, Lightly Active, Moderately Active, or Very Active
+Activity Level: Sedentary, Lightly Active, Moderately Active, Very Active
 
 Exercise Type: Walking, Running, Cycling, Swimming, Yoga
 
-Target Calories: Number of calories the user wants to burn in a day
+Target Calories: Desired calories to burn in a day
