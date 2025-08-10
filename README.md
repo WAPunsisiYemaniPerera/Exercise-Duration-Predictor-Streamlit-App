@@ -1,63 +1,95 @@
-🏃‍♂️ Exercise Duration Predictor Web App
-A machine learning-powered web application built with Streamlit that predicts the recommended daily exercise duration (in minutes) needed for a person to burn a specified number of calories based on personal attributes and exercise type.
+# 🏃‍♂️ Exercise Duration Predictor Streamlit App
 
-📖 Project Overview
-This project uses a dataset inspired by the fitness data to build regression models that predict exercise duration required to burn target calories. The model considers factors such as age, gender, weight, height, activity level, exercise type, and calorie goal.
+A **machine learning-powered** web application built with **Streamlit** that predicts the recommended daily **exercise duration (in minutes)** needed to burn a specified number of calories based on personal attributes and exercise type.
 
-The web app provides an interactive interface where users can explore the dataset, visualize relationships, and enter their own data to receive a personalized exercise duration recommendation.
+---
 
-The aim is to promote healthier lifestyles by making exercise planning accessible, personalized, and data-driven.
+## 📖 Project Overview
 
-✨ Features
-✅ Interactive Data Exploration: Filter and explore dataset samples with summary statistics and data types.
+This project leverages a fitness-inspired dataset to build regression models predicting the exercise duration required to burn a target calorie amount.
 
-✅ Rich Visualizations: Includes histograms, scatter plots, and boxplots showcasing data distributions and relationships.
+**Features considered:**
 
-✅ Real-time Prediction: Input your personal details and exercise preferences to instantly predict the required exercise duration.
+- Age  
+- Gender  
+- Weight & Height  
+- Activity Level  
+- Exercise Type  
+- Calorie Goal  
 
-✅ Model Performance Insights: Compare multiple regression models using metrics like MSE, RMSE, and R² with visual comparisons.
+The app provides:  
+- Interactive data exploration & visualizations  
+- Real-time personalized exercise duration predictions  
+- Model performance insights for transparency  
 
-✅ User-Friendly Interface: Clean, organized multi-page app using Streamlit’s sidebar navigation and responsive widgets.
+**Goal:** Empower healthier lifestyles through accessible, personalized, and data-driven exercise planning.
 
-🛠️ Technologies Used
-Python 3.x
+---
 
-Streamlit: Web app framework for interactive dashboards.
+## ✨ Features
 
-Pandas & NumPy: Data manipulation and analysis.
+- ✅ **Interactive Data Exploration:** Filter dataset samples, view summary stats and data types  
+- ✅ **Rich Visualizations:** Histograms, scatter plots, boxplots showing distributions & relationships  
+- ✅ **Real-time Predictions:** Enter personal data & get instant exercise duration recommendations  
+- ✅ **Model Performance Insights:** Compare models with MSE, RMSE, and R² metrics & visual charts  
+- ✅ **User-Friendly Interface:** Clean multi-page layout with sidebar navigation and responsive widgets  
 
-Scikit-learn: Machine learning model training and evaluation.
+---
 
-XGBoost & LightGBM: Gradient boosting regression models.
+## 🛠️ Technologies
 
-Matplotlib, Seaborn & Plotly: Data visualization libraries.
+- Python 3.x  
+- [Streamlit](https://streamlit.io) — Interactive web app framework  
+- Pandas & NumPy — Data manipulation & analysis  
+- Scikit-learn — Model training and evaluation  
+- [XGBoost](https://xgboost.ai/) & [LightGBM](https://lightgbm.readthedocs.io/) — Gradient boosting models  
+- Matplotlib, Seaborn, Plotly — Data visualizations  
+- Pickle — Model saving and loading  
 
-Pickle: Model serialization and loading.
+---
 
-🧪 Model Training Notebook
-The notebook notebooks/model_training.ipynb contains:
+## 🧪 Model Training Workflow
 
-Exploratory Data Analysis (EDA): Insightful visualizations and data quality checks.
+Located in: `notebooks/model_training.ipynb`
 
-Data Cleaning: Handling missing values, duplicates, and feature engineering (e.g., BMI and MET calculation).
+- Exploratory Data Analysis (EDA) with visualizations & data quality checks  
+- Data Cleaning: missing values, duplicates, BMI & MET calculations  
+- Model Training using:  
+  - Random Forest  
+  - MLP (Neural Network)  
+  - SVM  
+  - XGBoost  
+  - LightGBM  
+- Model Evaluation: MSE, RMSE, R² metrics  
+- Model Saving: Best model serialized for deployment  
 
-Model Training: Training and comparing multiple regression algorithms including Random Forest, MLP, SVM, XGBoost, and LightGBM.
+---
 
-Model Evaluation: Metrics such as MSE, RMSE, and R² used to select the best performing model.
+## 🧾 Input Features for Prediction
 
-Model Saving: Serialization of the trained model for deployment.
+| Feature        | Description                          | Example           |
+| -------------- | ---------------------------------- | ----------------- |
+| **Age**        | User’s age (18–60 years)            | 29                |
+| **Gender**     | Male / Female                      | Male              |
+| **Weight (kg)**| Body weight in kilograms           | 68                |
+| **Height (cm)**| Height in centimeters              | 172               |
+| **Activity Level** | Sedentary, Lightly Active, Moderately Active, Very Active | Moderately Active |
+| **Exercise Type** | Walking, Running, Cycling, Swimming, Yoga | Running           |
+| **Target Calories** | Calories to burn in a day       | 500               |
 
-🧾 Input Features for Prediction
-Age: User’s age (18–60 years)
+---
 
-Gender: Male or Female
+## 🚀 How to Run the App Locally
 
-Weight (kg): Body weight in kilograms
+```bash
+# Clone the repo
+git clone https://github.com/your-username/exercise-duration-predictor.git
 
-Height (cm): Height in centimeters
+# Change directory
+cd exercise-duration-predictor
 
-Activity Level: Sedentary, Lightly Active, Moderately Active, or Very Active
+# Install dependencies
+pip install -r requirements.txt
 
-Exercise Type: Walking, Running, Cycling, Swimming, Yoga
-
-Target Calories: Number of calories the user wants to burn in a day
+# Run the Streamlit app
+streamlit run app.py
