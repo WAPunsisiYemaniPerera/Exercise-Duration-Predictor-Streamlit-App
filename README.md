@@ -1,112 +1,91 @@
-🏃‍♂️ Exercise Duration Predictor Web App
-A machine learning-powered web application built with Streamlit that predicts the recommended daily exercise duration (in minutes) needed for a person to burn a specified number of calories based on personal attributes and exercise type.
+# 🏃‍♂️ Exercise Duration Predictor Web App
 
-📖 Project Overview
-This project leverages a fitness-inspired dataset to build regression models that predict the exercise duration required to burn a target calorie amount.
+A **machine learning-powered** web application built with **Streamlit** that predicts the recommended daily **exercise duration (in minutes)** needed to burn a specified number of calories based on personal attributes and exercise type.
 
-The model considers:
+---
 
-Age
+## 📖 Project Overview
 
-Gender
+This project leverages a fitness-inspired dataset to build regression models predicting the exercise duration required to burn a target calorie amount.
 
-Weight & Height
+**Features considered:**
 
-Activity Level
+- Age  
+- Gender  
+- Weight & Height  
+- Activity Level  
+- Exercise Type  
+- Calorie Goal  
 
-Exercise Type
+The app provides:  
+- Interactive data exploration & visualizations  
+- Real-time personalized exercise duration predictions  
+- Model performance insights for transparency  
 
-Calorie Goal
+**Goal:** Empower healthier lifestyles through accessible, personalized, and data-driven exercise planning.
 
-The web app provides:
+---
 
-An interactive interface for dataset exploration and visualizations
+## ✨ Features
 
-A real-time prediction tool for personalized recommendations
+- ✅ **Interactive Data Exploration:** Filter dataset samples, view summary stats and data types  
+- ✅ **Rich Visualizations:** Histograms, scatter plots, boxplots showing distributions & relationships  
+- ✅ **Real-time Predictions:** Enter personal data & get instant exercise duration recommendations  
+- ✅ **Model Performance Insights:** Compare models with MSE, RMSE, and R² metrics & visual charts  
+- ✅ **User-Friendly Interface:** Clean multi-page layout with sidebar navigation and responsive widgets  
 
-Insights into model performance for transparency and trust
+---
 
-💡 Goal: Promote healthier lifestyles by making exercise planning accessible, personalized, and data-driven.
+## 🛠️ Technologies
 
-✨ Features
-✅ Interactive Data Exploration — Filter and explore dataset samples with summary statistics and data types.
+- Python 3.x  
+- [Streamlit](https://streamlit.io) — Interactive web app framework  
+- Pandas & NumPy — Data manipulation & analysis  
+- Scikit-learn — Model training and evaluation  
+- [XGBoost](https://xgboost.ai/) & [LightGBM](https://lightgbm.readthedocs.io/) — Gradient boosting models  
+- Matplotlib, Seaborn, Plotly — Data visualizations  
+- Pickle — Model saving and loading  
 
-✅ Rich Visualizations — Histograms, scatter plots, and boxplots showcasing data distributions & relationships.
+---
 
-✅ Real-time Prediction — Input your personal details & preferences to instantly predict exercise duration.
+## 🧪 Model Training Workflow
 
-✅ Model Performance Insights — Compare multiple regression models using MSE, RMSE, and R², with visual comparisons.
+Located in: `notebooks/model_training.ipynb`
 
-✅ User-Friendly Interface — Clean, organized multi-page app with sidebar navigation & responsive widgets.
+- Exploratory Data Analysis (EDA) with visualizations & data quality checks  
+- Data Cleaning: missing values, duplicates, BMI & MET calculations  
+- Model Training using:  
+  - Random Forest  
+  - MLP (Neural Network)  
+  - SVM  
+  - XGBoost  
+  - LightGBM  
+- Model Evaluation: MSE, RMSE, R² metrics  
+- Model Saving: Best model serialized for deployment  
 
-🛠️ Technologies Used
-Python 3.x
+---
 
-Streamlit — Interactive web app framework
+## 🧾 Input Features for Prediction
 
-Pandas & NumPy — Data manipulation & analysis
+| Feature        | Description                          | Example           |
+| -------------- | ---------------------------------- | ----------------- |
+| **Age**        | User’s age (18–60 years)            | 29                |
+| **Gender**     | Male / Female                      | Male              |
+| **Weight (kg)**| Body weight in kilograms           | 68                |
+| **Height (cm)**| Height in centimeters              | 172               |
+| **Activity Level** | Sedentary, Lightly Active, Moderately Active, Very Active | Moderately Active |
+| **Exercise Type** | Walking, Running, Cycling, Swimming, Yoga | Running           |
+| **Target Calories** | Calories to burn in a day       | 500               |
 
-Scikit-learn — Machine learning model training & evaluation
+---
 
-XGBoost & LightGBM — Gradient boosting regression models
+## 🚀 How to Run the App Locally
 
-Matplotlib, Seaborn, Plotly — Data visualizations
-
-Pickle — Model serialization & loading
-
-🧪 Model Training Workflow
-📂 File: notebooks/model_training.ipynb
-
-Steps Included:
-
-Exploratory Data Analysis (EDA) — Insightful visualizations & data quality checks
-
-Data Cleaning — Handling missing values, duplicates & feature engineering
-
-BMI calculation
-
-MET (Metabolic Equivalent) calculation
-
-Model Training — Multiple regression algorithms:
-
-Random Forest
-
-MLP (Neural Network)
-
-SVM
-
-XGBoost
-
-LightGBM
-
-Model Evaluation — Metrics:
-
-MSE (Mean Squared Error)
-
-RMSE (Root Mean Squared Error)
-
-R² (Coefficient of Determination)
-
-Model Saving — Best performing model serialized for deployment
-
-🧾 Input Features for Prediction
-Feature	Description	Example
-Age	User’s age (18–60 years)	29
-Gender	Male / Female	Male
-Weight (kg)	Body weight in kilograms	68
-Height (cm)	Height in centimeters	172
-Activity Level	Sedentary, Lightly Active, Moderately Active, Very Active	Moderately Active
-Exercise Type	Walking, Running, Cycling, Swimming, Yoga	Running
-Target Calories	Calories to burn in a day	500
-
-🚀 How to Run the App Locally
-bash
-Copy
-Edit
-# Clone this repository
+```bash
+# Clone the repo
 git clone https://github.com/your-username/exercise-duration-predictor.git
 
-# Navigate into the project directory
+# Change directory
 cd exercise-duration-predictor
 
 # Install dependencies
