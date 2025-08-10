@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import plotly.express as px
 import pickle
 
@@ -20,126 +18,135 @@ def load_model():
         model = pickle.load(f)
     return model
 
-# Preprocessing function matching training pipeline
-def preprocess_input(df):
-    # Handle missing values (impute median for numericals, mode for categoricals)
-    numerical_cols = ['Age', 'Weight_kg', 'Height_cm', 'BMI', 'MET', 'Target_Calories']
-    categorical_cols = ['Gender', 'Activity_Level', 'Exercise_Type']
-
-    for col in numerical_cols:
-        df[col] = df[col].fillna(df[col].median())
-
-    for col in categorical_cols:
-        df[col] = df[col].fillna(df[col].mode()[0])
-
-    # Encode categorical columns using known encoding from training
-    gender_map = {'Male': 1, 'Female': 0}
-    activity_map = {'Sedentary': 3, 'Lightly Active': 2, 'Moderately Active': 1, 'Very Active': 0}
-    exercise_map = {'Walking': 3, 'Running': 1, 'Cycling': 2, 'Swimming': 0, 'Yoga': 4}
-
-    df['Gender'] = df['Gender'].map(gender_map).fillna(0).astype(int)
-    df['Activity_Level'] = df['Activity_Level'].map(activity_map).fillna(3).astype(int)
-    df['Exercise_Type'] = df['Exercise_Type'].map(exercise_map).fillna(3).astype(int)
-
-    # Calculate BMI if missing (optional)
-    df['BMI'] = df['Weight_kg'] / ((df['Height_cm'] / 100) ** 2)
-
-    # Calculate MET based on exercise type
-    met_values = {'Walking': 3.5, 'Running': 8.0, 'Cycling': 6.0, 'Swimming': 7.0, 'Yoga': 2.5}
-    df['MET'] = df['Exercise_Type'].map({v:k for k,v in exercise_map.items()})
-    df['MET'] = df['MET'].map(met_values).fillna(3.5)
-
-    # Select columns in order expected by model
-    features = ['Age', 'Gender', 'Weight_kg', 'Height_cm', 'BMI', 'Activity_Level', 'Exercise_Type', 'MET', 'Target_Calories']
-    return df[features]
-
 # Main app function
 def main():
-    st.set_page_config(page_title="Exercise Duration Predictor", layout="wide")
+    st.set_page_config(
+        page_title="🔥 Exercise Duration Predictor",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
     
-    st.title("Exercise Duration Predictor")
+    # --- Custom CSS for better visuals ---
     st.markdown("""
-    This app predicts the **exercise duration (minutes)** needed to burn your target calories,
-    based on your personal attributes and exercise choice.
-    """)
+        <style>
+        .block-container {
+            padding: 1.5rem 3rem 3rem 3rem;
+            max-width: 1100px;
+        }
+        .css-18e3th9 {
+            padding-top: 1rem;
+        }
+        .stButton>button {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.5em 1.5em;
+            transition: background-color 0.3s ease;
+        }
+        .stButton>button:hover {
+            background-color: #45a049;
+            color: #fff;
+        }
+        .sidebar .sidebar-content {
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            color: #000;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.title("🔥 Exercise Duration Predictor")
+    st.markdown(
+        """
+        <div style='font-size:18px;'>
+        Welcome! This app predicts the <b>exercise duration (minutes)</b> you need to burn your target calories,
+        based on your personal details and exercise choice.
+        </div>
+        """, unsafe_allow_html=True
+    )
+    st.markdown("---")
 
     # Load data and model
     df = load_data()
     model = load_model()
 
-    # Sidebar menu
-    menu = ["Data Exploration", "Visualizations", "Model Prediction", "Model Performance"]
-    choice = st.sidebar.selectbox("Navigation", menu)
+    # Sidebar menu with emojis and descriptions
+    menu = {
+        "📊 Data Exploration": "Explore dataset shape, columns, sample data & filters",
+        "📈 Visualizations": "View interactive charts about exercise & personal data",
+        "🏃‍♂️ Model Prediction": "Input your data and get exercise duration prediction",
+        "📉 Model Performance": "See model metrics and performance comparison"
+    }
+    choice = st.sidebar.radio("Navigate through the app", list(menu.keys()), format_func=lambda x: x)
 
-    # --------------------------
-    # Data Exploration Section
-    # --------------------------
-    if choice == "Data Exploration":
-        st.header("Dataset Overview")
+    st.sidebar.markdown("---")
+    st.sidebar.markdown(f"**{menu[choice]}**")
+    
 
-        st.write(f"**Dataset shape:** {df.shape}")
-        st.write("**Columns and data types:**")
-        st.write(df.dtypes)
+    # ----------- Data Exploration -----------
+    if choice == "📊 Data Exploration":
+        st.header("📋 Dataset Overview")
+        st.markdown(f"**Shape:** {df.shape[0]} rows and {df.shape[1]} columns")
 
-        st.write("**Sample data:**")
-        st.dataframe(df.sample(10))
+        with st.expander("▶ View Columns and Data Types"):
+            st.write(df.dtypes)
 
-        # Interactive filtering
-        st.subheader("Filter Data")
-        age_filter = st.slider("Select Age Range", int(df['Age'].min()), int(df['Age'].max()), (18, 60))
-        gender_filter = st.multiselect("Select Gender", options=df['Gender'].unique(), default=list(df['Gender'].unique()))
-        activity_filter = st.multiselect("Select Activity Level", options=df['Activity_Level'].unique(), default=list(df['Activity_Level'].unique()))
+        with st.expander("▶ Sample Data (Random 10 Rows)"):
+            st.dataframe(df.sample(10))
+
+        st.markdown("### 🔍 Filter Dataset")
+        age_filter = st.slider("Age Range", int(df['Age'].min()), int(df['Age'].max()), (18, 60))
+        gender_filter = st.multiselect("Gender", options=df['Gender'].unique(), default=list(df['Gender'].unique()))
+        activity_filter = st.multiselect("Activity Level", options=df['Activity_Level'].unique(), default=list(df['Activity_Level'].unique()))
 
         filtered_df = df[
             (df['Age'] >= age_filter[0]) & (df['Age'] <= age_filter[1]) &
             (df['Gender'].isin(gender_filter)) &
             (df['Activity_Level'].isin(activity_filter))
         ]
-        st.write(f"Filtered dataset size: {filtered_df.shape[0]}")
+        st.success(f"Filtered dataset has {filtered_df.shape[0]} records")
         st.dataframe(filtered_df.sample(min(10, filtered_df.shape[0])))
 
-    # --------------------------
-    # Visualizations Section
-    # --------------------------
-    elif choice == "Visualizations":
-        st.header("Data Visualizations")
+    # ----------- Visualizations -----------
+    elif choice == "📈 Visualizations":
+        st.header("📊 Interactive Visualizations")
 
-        # Plot 1: Distribution of Age
-        st.subheader("Age Distribution")
+        st.subheader("👥 Age Distribution by Gender")
         fig1 = px.histogram(df, x='Age', nbins=20, color='Gender', barmode='group',
-                            labels={'Age':'Age'}, title="Age Distribution by Gender")
+                            labels={'Age':'Age (years)'}, 
+                            title="Age Distribution by Gender",
+                            color_discrete_map={'Male': '#1f77b4', 'Female': '#ff7f0e'})
         st.plotly_chart(fig1, use_container_width=True)
 
-        # Plot 2: Scatter plot of Weight vs Duration colored by Exercise Type
-        st.subheader("Weight vs Exercise Duration")
+        st.subheader("⚖️ Weight vs Exercise Duration by Exercise Type")
         fig2 = px.scatter(df, x='Weight_kg', y='Duration_minutes', color='Exercise_Type',
-                          labels={'Weight_kg':'Weight (kg)', 'Duration_minutes':'Duration (minutes)'},
-                          title="Weight vs Exercise Duration by Exercise Type")
+                          labels={'Weight_kg':'Weight (kg)', 'Duration_minutes':'Duration (min)'},
+                          title="Weight vs Exercise Duration",
+                          color_discrete_sequence=px.colors.qualitative.Safe)
         st.plotly_chart(fig2, use_container_width=True)
 
-        # Plot 3: Boxplot of Duration by Activity Level
-        st.subheader("Exercise Duration by Activity Level")
+        st.subheader("⏱️ Exercise Duration by Activity Level")
         fig3 = px.box(df, x='Activity_Level', y='Duration_minutes', color='Activity_Level',
-                      labels={'Activity_Level':'Activity Level', 'Duration_minutes':'Duration (minutes)'},
-                      title="Exercise Duration Distribution by Activity Level")
+                      labels={'Activity_Level':'Activity Level', 'Duration_minutes':'Duration (min)'},
+                      title="Duration Distribution by Activity Level",
+                      color_discrete_sequence=px.colors.sequential.Teal)
         st.plotly_chart(fig3, use_container_width=True)
 
-    # --------------------------
-    # Model Prediction Section
-    # --------------------------
-    elif choice == "Model Prediction":
-        st.header("Make a Prediction")
+    # ----------- Model Prediction -----------
+    elif choice == "🏃‍♂️ Model Prediction":
+        st.header("🏋️‍♂️ Predict Your Exercise Duration")
+        st.markdown("Fill in your details below and get an estimated exercise duration to burn your target calories!")
 
         with st.form("prediction_form"):
-            age = st.slider("Age", 18, 60, 25, help="Select your age")
+            age = st.slider("Age (years)", 18, 60, 25, help="Select your age")
             gender = st.selectbox("Gender", ["Male", "Female"], help="Select your gender")
-            weight = st.number_input("Weight (kg)", min_value=40.0, max_value=120.0, value=65.0, step=0.1, help="Enter your weight")
-            height = st.number_input("Height (cm)", min_value=140.0, max_value=200.0, value=170.0, step=0.1, help="Enter your height")
+            weight = st.number_input("Weight (kg)", min_value=40.0, max_value=120.0, value=65.0, step=0.1, help="Your body weight in kilograms")
+            height = st.number_input("Height (cm)", min_value=140.0, max_value=200.0, value=170.0, step=0.1, help="Your height in centimeters")
             activity_level = st.selectbox("Activity Level", ["Sedentary", "Lightly Active", "Moderately Active", "Very Active"], help="Select your daily activity level")
-            exercise_type = st.selectbox("Exercise Type", ["Walking", "Running", "Cycling", "Swimming", "Yoga"], help="Select the exercise type")
-            target_calories = st.slider("Target Calories to Burn", 150, 700, 300, help="Calories you want to burn")
+            exercise_type = st.selectbox("Exercise Type", ["Walking", "Running", "Cycling", "Swimming", "Yoga"], help="Choose your preferred exercise")
+            target_calories = st.slider("Target Calories to Burn", 150, 700, 300, help="How many calories do you want to burn?")
 
-            submitted = st.form_submit_button("Predict Duration")
+            submitted = st.form_submit_button("🔥 Predict Duration")
 
         if submitted:
             # Prepare input dataframe
@@ -170,12 +177,9 @@ def main():
 
             features = ['Age', 'Gender', 'Weight_kg', 'Height_cm', 'BMI', 'Activity_Level', 'Exercise_Type', 'MET', 'Target_Calories']
 
-            # Scale inputs to [0,1] using min-max scaler fitted on original dataset
-            # For simplicity here, just clip and normalize approx based on training ranges
-            # You can improve this by saving scaler during training
+            # Manual min-max scaling approximation (you can improve by saving scaler from training)
             input_df = input_df[features]
             input_df_scaled = input_df.copy()
-            # Manual scaling approximation:
             input_df_scaled['Age'] = (input_df_scaled['Age'] - 18) / (60 - 18)
             input_df_scaled['Weight_kg'] = (input_df_scaled['Weight_kg'] - 40) / (120 - 40)
             input_df_scaled['Height_cm'] = (input_df_scaled['Height_cm'] - 140) / (200 - 140)
@@ -185,21 +189,17 @@ def main():
             input_df_scaled['MET'] = (input_df_scaled['MET'] - 2.5) / (8 - 2.5)
             input_df_scaled['Target_Calories'] = (input_df_scaled['Target_Calories'] - 150) / (700 - 150)
 
-            # Prediction with loading spinner
-            with st.spinner("Predicting..."):
+            with st.spinner("⏳ Predicting..."):
                 prediction_scaled = model.predict(input_df_scaled)
-                # Reverse scale Duration_minutes (target) assuming min=5, max=180 during training scaling
-                duration_pred = prediction_scaled[0] * (180 - 5) + 5
+                duration_pred = prediction_scaled[0] * (180 - 5) + 5  # reverse scale
 
-            st.success(f"Estimated Exercise Duration: {duration_pred:.1f} minutes")
+            st.success(f"✅ **Estimated Exercise Duration:** {duration_pred:.1f} minutes")
+            st.balloons()
 
-    # --------------------------
-    # Model Performance Section
-    # --------------------------
-    elif choice == "Model Performance":
-        st.header("Model Performance Metrics")
+    # ----------- Model Performance -----------
+    elif choice == "📉 Model Performance":
+        st.header("📊 Model Performance Summary")
 
-        # Hard-coded model results from training (you can load from file or DB)
         results = {
             "Model": ["MLP", "Random Forest", "SVM", "XGBoost", "LightGBM"],
             "MSE": [0.0041, 0.0017, 0.0029, 0.0019, 0.0018],
@@ -209,18 +209,14 @@ def main():
         perf_df = pd.DataFrame(results)
         st.table(perf_df)
 
-        # Plot comparison
-        fig_perf = px.bar(perf_df, x='Model', y='RMSE', title='Model RMSE Comparison', color='RMSE')
+        fig_perf = px.bar(perf_df, x='Model', y='RMSE', title='Model RMSE Comparison', color='RMSE',
+                          color_continuous_scale='Viridis')
         st.plotly_chart(fig_perf, use_container_width=True)
 
-        # Note: Confusion matrix is for classification; here you can show predicted vs actual plot instead
         st.subheader("Predicted vs Actual Duration Scatter Plot")
+        test_df = load_data().sample(500, random_state=42)
 
-        # Load test dataset predictions for visualization (simulate)
-        test_df = load_data()
-        test_df = test_df.sample(500, random_state=42)  # sample for speed
-
-        # Preprocess for prediction
+        # Preprocessing same as training
         gender_map = {'Male': 1, 'Female': 0}
         activity_map = {'Sedentary': 3, 'Lightly Active': 2, 'Moderately Active': 1, 'Very Active': 0}
         exercise_map = {'Walking': 3, 'Running': 1, 'Cycling': 2, 'Swimming': 0, 'Yoga': 4}
@@ -235,7 +231,7 @@ def main():
 
         features = ['Age', 'Gender', 'Weight_kg', 'Height_cm', 'BMI', 'Activity_Level', 'Exercise_Type', 'MET', 'Target_Calories']
 
-        # Approximate scaling
+        # Normalize approx
         for col in ['Age', 'Weight_kg', 'Height_cm', 'BMI', 'Activity_Level', 'Exercise_Type', 'MET', 'Target_Calories']:
             if col in ['Age', 'Weight_kg', 'Height_cm', 'BMI', 'Target_Calories']:
                 test_df[col] = (test_df[col] - test_df[col].min()) / (test_df[col].max() - test_df[col].min())
@@ -246,13 +242,15 @@ def main():
         y_test = test_df['Duration_minutes']
 
         y_pred = model.predict(X_test)
-        # Reverse scale duration approx
-        y_pred = y_pred * (180 - 5) + 5
+        y_pred = y_pred * (180 - 5) + 5  # reverse scale
 
         fig_scatter = px.scatter(x=y_test, y=y_pred,
-                                 labels={'x':'Actual Duration (scaled)', 'y':'Predicted Duration (scaled)'},
-                                 title='Actual vs Predicted Exercise Duration')
+                                 labels={'x': 'Actual Duration (minutes)', 'y': 'Predicted Duration (minutes)'},
+                                 title='Actual vs Predicted Exercise Duration',
+                                 color_discrete_sequence=['#ff6361'])
         st.plotly_chart(fig_scatter, use_container_width=True)
+
+        
 
 
 if __name__ == '__main__':
