@@ -1,4 +1,4 @@
-# 🏃‍♂️ Exercise Duration Predictor Web App
+# 🏃‍♂️ Exercise Duration Predictor Streamlit App
 
 A **machine learning-powered** web application built with **Streamlit** that predicts the recommended daily **exercise duration (in minutes)** needed to burn a specified number of calories based on personal attributes and exercise type.
 
