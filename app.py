@@ -36,112 +36,155 @@ def main():
         initial_sidebar_state="expanded",
     )
     
-    # Simplified CSS styling without boxes
+    # --- Charming CSS styling without boxes ---
     st.markdown("""
         <style>
+        /* Main container styling */
         .block-container {
-            padding: 1rem 2rem;
+            padding: 1rem 2rem 2rem 2rem;
             max-width: 1200px;
         }
+        
+        /* Header styling */
         .charm-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 1.5rem;
+            padding: 2rem;
+            border-radius: 20px;
             margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             text-align: center;
             color: white;
         }
+        
         .charm-header h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .charm-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
             margin: 0;
         }
-        .charm-header p {
-            font-size: 1rem;
-            opacity: 0.9;
-            margin: 0.5rem 0;
-        }
+        
+        /* Section headers */
         .charm-section {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 1rem;
-            margin: 2rem 0 1rem 0;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0 1.5rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             color: white;
             text-align: center;
         }
+        
         .charm-section h2 {
             margin: 0;
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 600;
         }
+        
+        /* Simple text styling */
         .charm-text {
             color: #333;
             margin: 1rem 0;
             padding: 1rem;
-            background: #f8f9fa;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #667eea;
         }
+        
         .charm-text h3 {
             color: #667eea;
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
         }
+        
+        /* Button styling */
         .stButton>button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             font-weight: 600;
-            padding: 0.6em 1.5em;
+            border-radius: 25px;
+            padding: 0.8em 2em;
             border: none;
-            border-radius: 5px;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+        
         .stButton>button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
+        
+        /* Sidebar styling */
         .sidebar .sidebar-content {
             background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
+        
         .sidebar .sidebar-content .stRadio > label {
             color: white;
             font-weight: 500;
         }
+        
+        /* Success message styling */
         .charm-success {
             background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
             color: white;
-            padding: 1.5rem;
+            padding: 2rem;
+            border-radius: 20px;
             text-align: center;
             margin: 2rem 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
+        
         .charm-success h2 {
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-size: 2rem;
         }
+        
         .charm-success h1 {
-            font-size: 2.5rem;
-            margin: 0.5rem 0;
+            font-size: 3.5rem;
+            margin: 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
+        
+        /* Simple metric display */
+        .simple-metric {
+            text-align: center;
+            padding: 1rem;
+            margin: 0.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+        
+        .simple-metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .simple-metric-label {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        /* Stats row */
         .stats-row {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             margin: 2rem 0;
             gap: 1rem;
         }
-        .simple-metric {
-            text-align: center;
-            padding: 0.5rem;
-            background: #f8f9fa;
-            border-radius: 5px;
-        }
-        .simple-metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 0.3rem;
-        }
-        .simple-metric-label {
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+        
+        /* Responsive design */
         @media (max-width: 768px) {
             .stats-row {
                 flex-direction: column;
@@ -204,7 +247,7 @@ def main():
         
         # Project overview
         st.markdown('<div class="charm-text"><h3>🎯 Project Overview</h3></div>', unsafe_allow_html=True)
-        st.write("""
+        st.markdown("""
             This cutting-edge application leverages **machine learning** to predict the **exercise duration (in minutes)** 
             needed to burn your target calories based on your personal attributes and exercise choice. 
             Say goodbye to guesswork and hello to data-driven fitness planning!
@@ -251,7 +294,7 @@ def main():
         
         # Footer
         st.markdown("""
-            <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 5px;">
+            <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; color: white; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
                 <h3>💪 Ready to Transform Your Fitness Journey?</h3>
                 <p>Use the sidebar to explore different sections and start making data-driven fitness decisions today!</p>
                 <p><strong>Stay active, stay healthy, and let AI guide your path to fitness success! 🎯</strong></p>
