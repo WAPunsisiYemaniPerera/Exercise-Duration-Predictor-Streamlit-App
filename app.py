@@ -56,8 +56,21 @@ def main():
     """, unsafe_allow_html=True)
 
     st.title("🔥 Exercise Duration Predictor")
+    st.markdown(
+        """
+        <div style='font-size:18px;'>
+        Welcome! This app predicts the <b>exercise duration (minutes)</b> you need to burn your target calories,
+        based on your personal details and exercise choice.
+        </div>
+        """, unsafe_allow_html=True
+    )
+    st.markdown("---")
 
-    # Sidebar menu with added Home tab
+    # Load data and model
+    df = load_data()
+    model = load_model()
+
+    # Sidebar menu with emojis and descriptions
     menu = {
         "🏠 Home": "Project overview and app introduction",
         "📊 Data Exploration": "Explore dataset shape, columns, sample data & filters",
@@ -69,7 +82,7 @@ def main():
 
     st.sidebar.markdown("---")
     st.sidebar.markdown(f"**{menu[choice]}**")
-
+    
     # ----------- Home Section -----------
     if choice == "🏠 Home":
         st.header("Welcome to the Exercise Duration Predictor Project! 🔥")
@@ -119,7 +132,6 @@ def main():
     # ----------- Data Exploration -----------
     elif choice == "📊 Data Exploration":
         st.header("📋 Dataset Overview")
-        df = load_data()
         st.markdown(f"**Shape:** {df.shape[0]} rows and {df.shape[1]} columns")
 
         with st.expander("▶ View Columns and Data Types"):
@@ -144,7 +156,6 @@ def main():
     # ----------- Visualizations -----------
     elif choice == "📈 Visualizations":
         st.header("📊 Interactive Visualizations")
-        df = load_data()
 
         st.subheader("👥 Age Distribution by Gender")
         fig1 = px.histogram(df, x='Age', nbins=20, color='Gender', barmode='group',
@@ -171,7 +182,6 @@ def main():
     elif choice == "🏃‍♂️ Model Prediction":
         st.header("🏋️‍♂️ Predict Your Exercise Duration")
         st.markdown("Fill in your details below and get an estimated exercise duration to burn your target calories!")
-        model = load_model()
 
         with st.form("prediction_form"):
             age = st.slider("Age (years)", 18, 60, 25, help="Select your age")
@@ -285,6 +295,8 @@ def main():
                                  title='Actual vs Predicted Exercise Duration',
                                  color_discrete_sequence=['#ff6361'])
         st.plotly_chart(fig_scatter, use_container_width=True)
+
+        
 
 
 if __name__ == '__main__':
