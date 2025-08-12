@@ -10,13 +10,23 @@ from sklearn.metrics import mean_squared_error, r2_score
 @st.cache_data
 def load_data():
     df = pd.read_csv("data/health_fitness_dataset.csv")
+    # Ensure proper data types to avoid PyArrow serialization issues
+    df['Age'] = df['Age'].astype('int64')
+    df['Weight_kg'] = df['Weight_kg'].astype('float64')
+    df['Height_cm'] = df['Height_cm'].astype('float64')
+    df['Duration_minutes'] = df['Duration_minutes'].astype('float64')
+    df['Target_Calories'] = df['Target_Calories'].astype('int64')
     return df
 
 @st.cache_resource
 def load_model():
-    with open('best_model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    return model
+    try:
+        with open('best_model.pkl', 'rb') as f:
+            model = pickle.load(f)
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
 
 # Main app function
 def main():
@@ -69,6 +79,11 @@ def main():
     # Load data and model
     df = load_data()
     model = load_model()
+    
+    # Check if model loaded successfully
+    if model is None:
+        st.error("❌ Failed to load the trained model. Please check if 'best_model.pkl' exists.")
+        st.stop()
 
     # Sidebar menu with emojis and descriptions
     menu = {
@@ -236,11 +251,13 @@ def main():
             input_df_scaled['Target_Calories'] = (input_df_scaled['Target_Calories'] - 150) / (700 - 150)
 
             with st.spinner("⏳ Predicting..."):
-                prediction_scaled = model.predict(input_df_scaled)
-                duration_pred = prediction_scaled[0] * (180 - 5) + 5  # reverse scale
-
-            st.success(f"✅ **Estimated Exercise Duration:** {duration_pred:.1f} minutes")
-            st.balloons()
+                try:
+                    prediction_scaled = model.predict(input_df_scaled)
+                    duration_pred = prediction_scaled[0] * (180 - 5) + 5  # reverse scale
+                    st.success(f"✅ **Estimated Exercise Duration:** {duration_pred:.1f} minutes")
+                    st.balloons()
+                except Exception as e:
+                    st.error(f"❌ Prediction failed: {e}")
 
     # ----------- Model Performance -----------
     elif choice == "📉 Model Performance":
@@ -260,44 +277,65 @@ def main():
         st.plotly_chart(fig_perf, use_container_width=True)
 
         st.subheader("Predicted vs Actual Duration Scatter Plot")
-        test_df = load_data().sample(500, random_state=42)
-
-        # Preprocessing same as training
-        gender_map = {'Male': 1, 'Female': 0}
-        activity_map = {'Sedentary': 3, 'Lightly Active': 2, 'Moderately Active': 1, 'Very Active': 0}
-        exercise_map = {'Walking': 3, 'Running': 1, 'Cycling': 2, 'Swimming': 0, 'Yoga': 4}
-
-        test_df['Gender'] = test_df['Gender'].map(gender_map)
-        test_df['Activity_Level'] = test_df['Activity_Level'].map(activity_map)
-        test_df['Exercise_Type'] = test_df['Exercise_Type'].map(exercise_map)
-        test_df['BMI'] = test_df['Weight_kg'] / ((test_df['Height_cm'] / 100) ** 2)
-        met_values = {'Walking': 3.5, 'Running': 8.0, 'Cycling': 6.0, 'Swimming': 7.0, 'Yoga': 2.5}
-        test_df['MET'] = test_df['Exercise_Type'].map({v:k for k,v in exercise_map.items()})
-        test_df['MET'] = test_df['MET'].map(met_values)
-
-        features = ['Age', 'Gender', 'Weight_kg', 'Height_cm', 'BMI', 'Activity_Level', 'Exercise_Type', 'MET', 'Target_Calories']
-
-        # Normalize approx
-        for col in ['Age', 'Weight_kg', 'Height_cm', 'BMI', 'Activity_Level', 'Exercise_Type', 'MET', 'Target_Calories']:
-            if col in ['Age', 'Weight_kg', 'Height_cm', 'BMI', 'Target_Calories']:
-                test_df[col] = (test_df[col] - test_df[col].min()) / (test_df[col].max() - test_df[col].min())
-            else:
-                test_df[col] = test_df[col] / test_df[col].max()
-
-        X_test = test_df[features]
-        y_test = test_df['Duration_minutes']
-
-        y_pred = model.predict(X_test)
-        y_pred = y_pred * (180 - 5) + 5  # reverse scale
-
-        fig_scatter = px.scatter(x=y_test, y=y_pred,
-                                 labels={'x': 'Actual Duration (minutes)', 'y': 'Predicted Duration (minutes)'},
-                                 title='Actual vs Predicted Exercise Duration',
-                                 color_discrete_sequence=['#ff6361'])
-        st.plotly_chart(fig_scatter, use_container_width=True)
-
         
+        try:
+            # Load fresh data for testing
+            test_df = load_data().sample(500, random_state=42)
 
+            # Preprocessing same as training
+            gender_map = {'Male': 1, 'Female': 0}
+            activity_map = {'Sedentary': 3, 'Lightly Active': 2, 'Moderately Active': 1, 'Very Active': 0}
+            exercise_map = {'Walking': 3, 'Running': 1, 'Cycling': 2, 'Swimming': 0, 'Yoga': 4}
+
+            test_df['Gender'] = test_df['Gender'].map(gender_map)
+            test_df['Activity_Level'] = test_df['Activity_Level'].map(activity_map)
+            test_df['Exercise_Type'] = test_df['Exercise_Type'].map(exercise_map)
+            test_df['BMI'] = test_df['Weight_kg'] / ((test_df['Height_cm'] / 100) ** 2)
+            met_values = {'Walking': 3.5, 'Running': 8.0, 'Cycling': 6.0, 'Swimming': 7.0, 'Yoga': 2.5}
+            test_df['MET'] = test_df['Exercise_Type'].map({v:k for k,v in exercise_map.items()})
+            test_df['MET'] = test_df['MET'].map(met_values)
+
+            features = ['Age', 'Gender', 'Weight_kg', 'Height_cm', 'BMI', 'Activity_Level', 'Exercise_Type', 'MET', 'Target_Calories']
+
+            # Normalize approx
+            for col in ['Age', 'Weight_kg', 'Height_cm', 'BMI', 'Activity_Level', 'Exercise_Type', 'MET', 'Target_Calories']:
+                if col in ['Age', 'Weight_kg', 'Height_cm', 'BMI', 'Target_Calories']:
+                    test_df[col] = (test_df[col] - test_df[col].min()) / (test_df[col].max() - test_df[col].min())
+                else:
+                    test_df[col] = test_df[col] / test_df[col].max()
+
+            X_test = test_df[features]
+            y_test = test_df['Duration_minutes']
+
+            # Ensure model is available
+            if model is not None:
+                y_pred = model.predict(X_test)
+                y_pred = y_pred * (180 - 5) + 5  # reverse scale
+
+                fig_scatter = px.scatter(x=y_test, y=y_pred,
+                                         labels={'x': 'Actual Duration (minutes)', 'y': 'Predicted Duration (minutes)'},
+                                         title='Actual vs Predicted Exercise Duration',
+                                         color_discrete_sequence=['#ff6361'])
+                st.plotly_chart(fig_scatter, use_container_width=True)
+                
+                # Calculate and display metrics
+                mse = mean_squared_error(y_test, y_pred)
+                r2 = r2_score(y_test, y_pred)
+                rmse = np.sqrt(mse)
+                
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("MSE", f"{mse:.4f}")
+                with col2:
+                    st.metric("RMSE", f"{rmse:.4f}")
+                with col3:
+                    st.metric("R²", f"{r2:.4f}")
+            else:
+                st.error("❌ Model not available for performance evaluation")
+                
+        except Exception as e:
+            st.error(f"❌ Error generating performance plot: {e}")
+            st.info("This might be due to data preprocessing issues or model compatibility.")
 
 if __name__ == '__main__':
     main()
