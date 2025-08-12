@@ -56,22 +56,10 @@ def main():
     """, unsafe_allow_html=True)
 
     st.title("🔥 Exercise Duration Predictor")
-    st.markdown(
-        """
-        <div style='font-size:18px;'>
-        Welcome! This app predicts the <b>exercise duration (minutes)</b> you need to burn your target calories,
-        based on your personal details and exercise choice.
-        </div>
-        """, unsafe_allow_html=True
-    )
-    st.markdown("---")
 
-    # Load data and model
-    df = load_data()
-    model = load_model()
-
-    # Sidebar menu with emojis and descriptions
+    # Sidebar menu with added Home tab
     menu = {
+        "🏠 Home": "Project overview and app introduction",
         "📊 Data Exploration": "Explore dataset shape, columns, sample data & filters",
         "📈 Visualizations": "View interactive charts about exercise & personal data",
         "🏃‍♂️ Model Prediction": "Input your data and get exercise duration prediction",
@@ -81,11 +69,57 @@ def main():
 
     st.sidebar.markdown("---")
     st.sidebar.markdown(f"**{menu[choice]}**")
-    
+
+    # ----------- Home Section -----------
+    if choice == "🏠 Home":
+        st.header("Welcome to the Exercise Duration Predictor Project! 🔥")
+        st.markdown("""
+        ### Project Overview
+        This application predicts the **exercise duration (in minutes)** needed to burn your target calories
+        based on your personal attributes and exercise choice.
+        
+        ---
+        
+        ### Dataset Description
+        - Contains personal data like age, gender, weight, height, BMI, activity level, exercise type, and target calories.
+        - Target variable is the actual exercise duration needed to burn calories.
+        - Dataset cleaned and preprocessed with missing value imputation, encoding, and scaling.
+        
+        ---
+        
+        ### Model Selection & Evaluation
+        - Models trained include Multi-Layer Perceptron (MLP), Random Forest, Support Vector Machine (SVM), XGBoost, and LightGBM.
+        - Random Forest performed best with highest R² (~0.977) and lowest RMSE.
+        - Model saved and deployed for real-time predictions.
+        
+        ---
+        
+        ### Application Features
+        - **Data Exploration:** View and filter the dataset.
+        - **Visualizations:** Interactive charts to understand data distributions and relationships.
+        - **Model Prediction:** Input your details and get instant exercise duration estimation.
+        - **Model Performance:** Compare model metrics and visualize predictions vs actual durations.
+        
+        ---
+        
+        ### Deployment
+        - The app is deployed on Streamlit Cloud connected to GitHub repository.
+        - Handles real-time inputs and model predictions with user-friendly interface and error handling.
+        
+        ---
+        
+        ### How to Use
+        Use the sidebar to navigate between sections and explore or predict based on your needs.
+        
+        ---
+        
+        **Thank you for using the Exercise Duration Predictor! Stay active and healthy! 💪**
+        """)
 
     # ----------- Data Exploration -----------
-    if choice == "📊 Data Exploration":
+    elif choice == "📊 Data Exploration":
         st.header("📋 Dataset Overview")
+        df = load_data()
         st.markdown(f"**Shape:** {df.shape[0]} rows and {df.shape[1]} columns")
 
         with st.expander("▶ View Columns and Data Types"):
@@ -110,6 +144,7 @@ def main():
     # ----------- Visualizations -----------
     elif choice == "📈 Visualizations":
         st.header("📊 Interactive Visualizations")
+        df = load_data()
 
         st.subheader("👥 Age Distribution by Gender")
         fig1 = px.histogram(df, x='Age', nbins=20, color='Gender', barmode='group',
@@ -136,6 +171,7 @@ def main():
     elif choice == "🏃‍♂️ Model Prediction":
         st.header("🏋️‍♂️ Predict Your Exercise Duration")
         st.markdown("Fill in your details below and get an estimated exercise duration to burn your target calories!")
+        model = load_model()
 
         with st.form("prediction_form"):
             age = st.slider("Age (years)", 18, 60, 25, help="Select your age")
@@ -249,8 +285,6 @@ def main():
                                  title='Actual vs Predicted Exercise Duration',
                                  color_discrete_sequence=['#ff6361'])
         st.plotly_chart(fig_scatter, use_container_width=True)
-
-        
 
 
 if __name__ == '__main__':
