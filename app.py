@@ -36,7 +36,7 @@ def main():
         initial_sidebar_state="expanded",
     )
     
-    # --- Charming CSS styling ---
+    # --- Charming CSS styling without boxes ---
     st.markdown("""
         <style>
         /* Main container styling */
@@ -86,18 +86,18 @@ def main():
             font-weight: 600;
         }
         
-        /* Subtle info boxes */
-        .charm-info {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: 1.5rem;
-            border-radius: 15px;
+        /* Simple text styling */
+        .charm-text {
+            color: #333;
             margin: 1rem 0;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            padding: 1rem;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #667eea;
         }
         
-        .charm-info h3 {
-            color: #333;
+        .charm-text h3 {
+            color: #667eea;
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
@@ -118,22 +118,6 @@ def main():
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        }
-        
-        /* Form styling */
-        .charm-form {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 2rem;
-            border-radius: 20px;
-            color: white;
-            margin: 2rem 0;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .charm-form h3 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
         }
         
         /* Sidebar styling */
@@ -169,24 +153,24 @@ def main():
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
-        /* Metric styling */
-        .charm-metric {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        /* Simple metric display */
+        .simple-metric {
             text-align: center;
-            border: 2px solid #f0f0f0;
+            padding: 1rem;
+            margin: 0.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border: 2px solid #667eea;
         }
         
-        .charm-metric-value {
+        .simple-metric-value {
             font-size: 2rem;
             font-weight: 700;
             color: #667eea;
             margin-bottom: 0.5rem;
         }
         
-        .charm-metric-label {
+        .simple-metric-label {
             color: #666;
             font-size: 1rem;
             font-weight: 500;
@@ -246,23 +230,23 @@ def main():
         # Stats overview
         st.markdown("""
             <div class="stats-row">
-                <div class="charm-metric">
-                    <div class="charm-metric-value">{:,}</div>
-                    <div class="charm-metric-label">📊 Dataset Records</div>
+                <div class="simple-metric">
+                    <div class="simple-metric-value">{:,}</div>
+                    <div class="simple-metric-label">📊 Dataset Records</div>
                 </div>
-                <div class="charm-metric">
-                    <div class="charm-metric-value">97.7%</div>
-                    <div class="charm-metric-label">🎯 Model Accuracy</div>
+                <div class="simple-metric">
+                    <div class="simple-metric-value">97.7%</div>
+                    <div class="simple-metric-label">🎯 Model Accuracy</div>
                 </div>
-                <div class="charm-metric">
-                    <div class="charm-metric-value">&lt;1s</div>
-                    <div class="charm-metric-label">⚡ Prediction Speed</div>
+                <div class="simple-metric">
+                    <div class="simple-metric-value">&lt;1s</div>
+                    <div class="simple-metric-label">⚡ Prediction Speed</div>
                 </div>
             </div>
         """.format(df.shape[0]), unsafe_allow_html=True)
         
         # Project overview
-        st.markdown('<div class="charm-info"><h3>🎯 Project Overview</h3></div>', unsafe_allow_html=True)
+        st.markdown('<div class="charm-text"><h3>🎯 Project Overview</h3></div>', unsafe_allow_html=True)
         st.markdown("""
             This cutting-edge application leverages **machine learning** to predict the **exercise duration (in minutes)** 
             needed to burn your target calories based on your personal attributes and exercise choice. 
@@ -273,14 +257,14 @@ def main():
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown('<div class="charm-info"><h3>🧠 AI-Powered Predictions</h3><p>Advanced machine learning algorithms trained on comprehensive fitness data</p></div>', unsafe_allow_html=True)
-            st.markdown('<div class="charm-info"><h3>📊 Comprehensive Analytics</h3><p>Explore data distributions, correlations, and insights about fitness patterns</p></div>', unsafe_allow_html=True)
-            st.markdown('<div class="charm-info"><h3>🎨 Interactive Visualizations</h3><p>Beautiful charts and graphs to understand your fitness journey</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>🧠 AI-Powered Predictions</h3><p>Advanced machine learning algorithms trained on comprehensive fitness data</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>📊 Comprehensive Analytics</h3><p>Explore data distributions, correlations, and insights about fitness patterns</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>🎨 Interactive Visualizations</h3><p>Beautiful charts and graphs to understand your fitness journey</p></div>', unsafe_allow_html=True)
         
         with col2:
-            st.markdown('<div class="charm-info"><h3>⚡ Real-Time Results</h3><p>Instant predictions with professional-grade accuracy</p></div>', unsafe_allow_html=True)
-            st.markdown('<div class="charm-info"><h3>🔬 Model Performance</h3><p>Transparent metrics showing model accuracy and reliability</p></div>', unsafe_allow_html=True)
-            st.markdown('<div class="charm-info"><h3>📱 User-Friendly Interface</h3><p>Intuitive design that makes fitness planning enjoyable</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>⚡ Real-Time Results</h3><p>Instant predictions with professional-grade accuracy</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>🔬 Model Performance</h3><p>Transparent metrics showing model accuracy and reliability</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>📱 User-Friendly Interface</h3><p>Intuitive design that makes fitness planning enjoyable</p></div>', unsafe_allow_html=True)
         
         # Dataset description
         st.markdown('<div class="charm-section"><h2>📋 Dataset & Technology</h2></div>', unsafe_allow_html=True)
@@ -288,17 +272,17 @@ def main():
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown('<div class="charm-info"><h3>📊 Rich Data Collection</h3><p>Personal attributes: age, gender, weight, height, BMI, activity level, exercise type, and target calories</p></div>', unsafe_allow_html=True)
-            st.markdown('<div class="charm-info"><h3>🧹 Data Quality</h3><p>Comprehensive preprocessing with missing value imputation, encoding, and scaling</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>📊 Rich Data Collection</h3><p>Personal attributes: age, gender, weight, height, BMI, activity level, exercise type, and target calories</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>🧹 Data Quality</h3><p>Comprehensive preprocessing with missing value imputation, encoding, and scaling</p></div>', unsafe_allow_html=True)
         
         with col2:
-            st.markdown('<div class="charm-info"><h3>🎯 Target Variable</h3><p>Actual exercise duration needed to burn calories - the core prediction target</p></div>', unsafe_allow_html=True)
-            st.markdown('<div class="charm-info"><h3>🔬 Advanced Models</h3><p>MLP, Random Forest, SVM, XGBoost, and LightGBM with Random Forest achieving 97.7% R²</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>🎯 Target Variable</h3><p>Actual exercise duration needed to burn calories - the core prediction target</p></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>🔬 Advanced Models</h3><p>MLP, Random Forest, SVM, XGBoost, and LightGBM with Random Forest achieving 97.7% R²</p></div>', unsafe_allow_html=True)
         
         # How to use
         st.markdown('<div class="charm-section"><h2>🚀 Getting Started</h2></div>', unsafe_allow_html=True)
         st.markdown("""
-            <div class="charm-info">
+            <div class="charm-text">
                 <h3>📱 Navigation Guide</h3>
                 <p><strong>🏠 Home:</strong> You're here! Overview and project information</p>
                 <p><strong>📊 Data Exploration:</strong> Dive deep into the dataset with filters and analysis</p>
@@ -325,30 +309,30 @@ def main():
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.markdown(f"""
-                <div class="charm-metric">
-                    <div class="charm-metric-value">{df.shape[0]:,}</div>
-                    <div class="charm-metric-label">Total Records</div>
+                <div class="simple-metric">
+                    <div class="simple-metric-value">{df.shape[0]:,}</div>
+                    <div class="simple-metric-label">Total Records</div>
                 </div>
             """, unsafe_allow_html=True)
         with col2:
             st.markdown(f"""
-                <div class="charm-metric">
-                    <div class="charm-metric-value">{df.shape[1]}</div>
-                    <div class="charm-metric-label">Features</div>
+                <div class="simple-metric">
+                    <div class="simple-metric-value">{df.shape[1]}</div>
+                    <div class="simple-metric-label">Features</div>
                 </div>
             """, unsafe_allow_html=True)
         with col3:
             st.markdown(f"""
-                <div class="charm-metric">
-                    <div class="charm-metric-value">{df['Gender'].nunique()}</div>
-                    <div class="charm-metric-label">Gender Categories</div>
+                <div class="simple-metric">
+                    <div class="simple-metric-value">{df['Gender'].nunique()}</div>
+                    <div class="simple-metric-label">Gender Categories</div>
                 </div>
             """, unsafe_allow_html=True)
         with col4:
             st.markdown(f"""
-                <div class="charm-metric">
-                    <div class="charm-metric-value">{df['Exercise_Type'].nunique()}</div>
-                    <div class="charm-metric-label">Exercise Types</div>
+                <div class="simple-metric">
+                    <div class="simple-metric-value">{df['Exercise_Type'].nunique()}</div>
+                    <div class="simple-metric-label">Exercise Types</div>
                 </div>
             """, unsafe_allow_html=True)
 
@@ -379,7 +363,7 @@ def main():
         st.success(f"🎯 **Filtered dataset has {filtered_df.shape[0]} records**")
         
         if filtered_df.shape[0] > 0:
-            st.markdown('<div class="charm-info"><h3>📊 Filtered Data Preview</h3></div>', unsafe_allow_html=True)
+            st.markdown('<div class="charm-text"><h3>📊 Filtered Data Preview</h3></div>', unsafe_allow_html=True)
             st.dataframe(filtered_df.sample(min(10, filtered_df.shape[0])), use_container_width=True)
         else:
             st.warning("⚠️ No data matches your current filters. Try adjusting the criteria.")
@@ -389,7 +373,7 @@ def main():
         st.markdown('<div class="charm-section"><h2>📊 Interactive Data Visualizations</h2></div>', unsafe_allow_html=True)
         st.markdown("Explore the relationships and patterns in your fitness data through these interactive charts!")
 
-        st.markdown('<div class="charm-info"><h3>👥 Age Distribution by Gender</h3></div>', unsafe_allow_html=True)
+        st.markdown('<div class="charm-text"><h3>👥 Age Distribution by Gender</h3></div>', unsafe_allow_html=True)
         fig1 = px.histogram(df, x='Age', nbins=20, color='Gender', barmode='group',
                             labels={'Age':'Age (years)'}, 
                             title="Age Distribution by Gender",
@@ -401,7 +385,7 @@ def main():
         )
         st.plotly_chart(fig1, use_container_width=True)
 
-        st.markdown('<div class="charm-info"><h3>⚖️ Weight vs Exercise Duration by Exercise Type</h3></div>', unsafe_allow_html=True)
+        st.markdown('<div class="charm-text"><h3>⚖️ Weight vs Exercise Duration by Exercise Type</h3></div>', unsafe_allow_html=True)
         fig2 = px.scatter(df, x='Weight_kg', y='Duration_minutes', color='Exercise_Type',
                           labels={'Weight_kg':'Weight (kg)', 'Duration_minutes':'Duration (min)'},
                           title="Weight vs Exercise Duration",
@@ -413,7 +397,7 @@ def main():
         )
         st.plotly_chart(fig2, use_container_width=True)
 
-        st.markdown('<div class="charm-info"><h3>⏱️ Exercise Duration by Activity Level</h3></div>', unsafe_allow_html=True)
+        st.markdown('<div class="charm-text"><h3>⏱️ Exercise Duration by Activity Level</h3></div>', unsafe_allow_html=True)
         fig3 = px.box(df, x='Activity_Level', y='Duration_minutes', color='Activity_Level',
                       labels={'Activity_Level':'Activity Level', 'Duration_minutes':'Duration (min)'},
                       title="Duration Distribution by Activity Level",
@@ -430,11 +414,7 @@ def main():
         st.markdown('<div class="charm-section"><h2>🏋️‍♂️ AI-Powered Exercise Duration Prediction</h2></div>', unsafe_allow_html=True)
         st.markdown("Fill in your details below and get an instant, AI-powered estimate of your exercise duration!")
 
-        st.markdown("""
-            <div class="charm-form">
-                <h3>🎯 Enter Your Fitness Profile</h3>
-            </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="charm-text"><h3>🎯 Enter Your Fitness Profile</h3></div>', unsafe_allow_html=True)
 
         with st.form("prediction_form"):
             col1, col2 = st.columns(2)
@@ -510,7 +490,7 @@ def main():
                     st.balloons()
                     
                     # Additional insights
-                    st.markdown('<div class="charm-info"><h3>💡 Fitness Insights</h3></div>', unsafe_allow_html=True)
+                    st.markdown('<div class="charm-text"><h3>💡 Fitness Insights</h3></div>', unsafe_allow_html=True)
                     col1, col2, col3 = st.columns(3)
                     with col1:
                         st.metric("BMI", f"{input_df['BMI'].iloc[0]:.1f}")
@@ -527,7 +507,7 @@ def main():
         st.markdown('<div class="charm-section"><h2>📊 Model Performance & Evaluation</h2></div>', unsafe_allow_html=True)
         st.markdown("Discover how our AI models perform and compare their accuracy!")
 
-        st.markdown('<div class="charm-info"><h3>🏆 Model Comparison Results</h3></div>', unsafe_allow_html=True)
+        st.markdown('<div class="charm-text"><h3>🏆 Model Comparison Results</h3></div>', unsafe_allow_html=True)
         
         results = {
             "Model": ["MLP", "Random Forest", "SVM", "XGBoost", "LightGBM"],
@@ -544,7 +524,7 @@ def main():
         st.dataframe(perf_df, use_container_width=True)
 
         # Performance visualization
-        st.markdown('<div class="charm-info"><h3>📈 RMSE Comparison Chart</h3></div>', unsafe_allow_html=True)
+        st.markdown('<div class="charm-text"><h3>📈 RMSE Comparison Chart</h3></div>', unsafe_allow_html=True)
         fig_perf = px.bar(perf_df, x='Model', y='RMSE', title='Model RMSE Comparison (Lower is Better)', 
                           color='RMSE', color_continuous_scale='Viridis')
         fig_perf.update_layout(
@@ -591,7 +571,7 @@ def main():
                 y_pred = model.predict(X_test)
                 y_pred = y_pred * (180 - 5) + 5  # reverse scale
 
-                st.markdown('<div class="charm-info"><h3>📊 Predicted vs Actual Duration Scatter Plot</h3></div>', unsafe_allow_html=True)
+                st.markdown('<div class="charm-text"><h3>📊 Predicted vs Actual Duration Scatter Plot</h3></div>', unsafe_allow_html=True)
                 fig_scatter = px.scatter(x=y_test, y=y_pred,
                                          labels={'x': 'Actual Duration (minutes)', 'y': 'Predicted Duration (minutes)'},
                                          title='Actual vs Predicted Exercise Duration',
@@ -608,27 +588,27 @@ def main():
                 r2 = r2_score(y_test, y_pred)
                 rmse = np.sqrt(mse)
                 
-                st.markdown('<div class="charm-info"><h3>📈 Performance Metrics on Test Data</h3></div>', unsafe_allow_html=True)
+                st.markdown('<div class="charm-text"><h3>📈 Performance Metrics on Test Data</h3></div>', unsafe_allow_html=True)
                 col1, col2, col3 = st.columns(3)
                 with col1:
                     st.markdown(f"""
-                        <div class="charm-metric">
-                            <div class="charm-metric-value">{mse:.4f}</div>
-                            <div class="charm-metric-label">Mean Squared Error</div>
+                        <div class="simple-metric">
+                            <div class="simple-metric-value">{mse:.4f}</div>
+                            <div class="simple-metric-label">Mean Squared Error</div>
                         </div>
                     """, unsafe_allow_html=True)
                 with col2:
                     st.markdown(f"""
-                        <div class="charm-metric">
-                            <div class="charm-metric-value">{rmse:.4f}</div>
-                            <div class="charm-metric-label">Root Mean Squared Error</div>
+                        <div class="simple-metric">
+                            <div class="simple-metric-value">{rmse:.4f}</div>
+                            <div class="simple-metric-label">Root Mean Squared Error</div>
                         </div>
                     """, unsafe_allow_html=True)
                 with col3:
                     st.markdown(f"""
-                        <div class="charm-metric">
-                            <div class="charm-metric-value">{r2:.4f}</div>
-                            <div class="charm-metric-label">R² Score</div>
+                        <div class="simple-metric">
+                            <div class="simple-metric-value">{r2:.4f}</div>
+                            <div class="simple-metric-label">R² Score</div>
                         </div>
                     """, unsafe_allow_html=True)
             else:
