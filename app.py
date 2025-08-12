@@ -36,7 +36,7 @@ def main():
         initial_sidebar_state="expanded",
     )
     
-    # --- Custom CSS for better visuals ---
+    # --- Simple CSS for basic styling ---
     st.markdown("""
         <style>
         .block-container {
