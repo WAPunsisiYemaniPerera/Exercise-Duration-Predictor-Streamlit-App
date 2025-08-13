@@ -1,95 +1,125 @@
-# 🏃‍♂️ Exercise Duration Predictor Streamlit App
+# 🏋️‍♂️ Exercise Duration Prediction App
 
-A **machine learning-powered** web application built with **Streamlit** that predicts the recommended daily **exercise duration (in minutes)** needed to burn a specified number of calories based on personal attributes and exercise type.
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
+
+🔗 **GitHub Repository:** [Exercise Duration Predictor Streamlit App](https://github.com/WAPunsisiYemaniPerera/ExerciseDuration-Predictor-Streamlit-App)  
+🌐 **Live App:** [Streamlit Deployment](https://share.streamlit.io/WAPunsisiYemaniPerera/ExerciseDuration-Predictor-Streamlit-App/app.py)
 
 ---
 
 ## 📖 Project Overview
 
-This project leverages a fitness-inspired dataset to build regression models predicting the exercise duration required to burn a target calorie amount.
+This project predicts the exercise duration required for an individual to burn a specific number of calories based on personal attributes and activity type. It leverages machine learning regression models and an interactive Streamlit web app to make predictions in real-time.
 
-**Features considered:**
-
-- Age  
-- Gender  
-- Weight & Height  
-- Activity Level  
-- Exercise Type  
-- Calorie Goal  
-
-The app provides:  
-- Interactive data exploration & visualizations  
-- Real-time personalized exercise duration predictions  
-- Model performance insights for transparency  
-
-**Goal:** Empower healthier lifestyles through accessible, personalized, and data-driven exercise planning.
+The aim is to encourage healthier lifestyles by providing personalized exercise time recommendations.
 
 ---
 
 ## ✨ Features
 
-- ✅ **Interactive Data Exploration:** Filter dataset samples, view summary stats and data types  
-- ✅ **Rich Visualizations:** Histograms, scatter plots, boxplots showing distributions & relationships  
-- ✅ **Real-time Predictions:** Enter personal data & get instant exercise duration recommendations  
-- ✅ **Model Performance Insights:** Compare models with MSE, RMSE, and R² metrics & visual charts  
-- ✅ **User-Friendly Interface:** Clean multi-page layout with sidebar navigation and responsive widgets  
+- ✅ **Interactive Data Exploration** – View dataset shape, columns, sample data, and filter records  
+- ✅ **Rich Visualizations** – Interactive charts to explore personal attributes and exercise-related data  
+- ✅ **Live Predictions** – Input your data and get instant predictions  
+- ✅ **Model Performance Insights** – View metrics like RMSE and R², plus model comparison results  
+- ✅ **User-Friendly Web UI** – Sidebar navigation, clean layouts, tooltips, and responsive design  
 
 ---
 
-## 🛠️ Technologies
+## 🗂️ Dataset Description
+
+**Attributes:**  
+- Age  
+- Gender  
+- Weight (kg)  
+- Height (cm)  
+- BMI  
+- Activity Level  
+- Exercise Type  
+- MET value  
+- Target Calories  
+- Duration Minutes (target)
+
+**Source:** Adapted from FitLife: Health & Fitness Tracking Dataset (Kaggle) + synthetic data reflecting Sri Lankan community (ages 18–60).
+
+### Preprocessing Steps:
+1. Missing values imputed (median for numerical, mode for categorical)  
+2. Duplicate entries removed  
+3. Label encoding for categorical features  
+4. Min-max normalization for scaling  
+5. Train-validation-test split: 70% / 15% / 15%  
+
+---
+
+## 🧠 Model Training & Evaluation
+
+**Models Trained:**
+- Multi-Layer Perceptron (MLP) Regressor  
+- **Random Forest Regressor** ✅ (Best Performer)  
+- Support Vector Regressor (SVR)  
+
+**Evaluation Metrics:**
+- Mean Squared Error (MSE)  
+- Root Mean Squared Error (RMSE)  
+- R² Score  
+
+**Best Model Performance:**
+- **Random Forest Regressor**  
+  - RMSE: ~0.041  
+  - R²: ~0.977  
+
+---
+
+## 🛠️ Technologies Used
 
 - Python 3.x  
-- [Streamlit](https://streamlit.io) — Interactive web app framework  
-- Pandas & NumPy — Data manipulation & analysis  
-- Scikit-learn — Model training and evaluation  
-- [XGBoost](https://xgboost.ai/) & [LightGBM](https://lightgbm.readthedocs.io/) — Gradient boosting models  
-- Matplotlib, Seaborn, Plotly — Data visualizations  
-- Pickle — Model saving and loading  
+- Streamlit – Web application framework  
+- scikit-learn – Machine learning models and metrics  
+- Pandas & NumPy – Data handling and preprocessing  
+- Matplotlib & Seaborn – Data visualization  
+- Pickle – Model persistence for deployment  
 
 ---
 
-## 🧪 Model Training Workflow
+## 🚀 How to Run Locally
 
-Located in: `notebooks/model_training.ipynb`
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/WAPunsisiYemaniPerera/ExerciseDuration-Predictor-Streamlit-App.git
+   cd ExerciseDuration-Predictor-Streamlit-App
 
-- Exploratory Data Analysis (EDA) with visualizations & data quality checks  
-- Data Cleaning: missing values, duplicates, BMI & MET calculations  
-- Model Training using:  
-  - Random Forest  
-  - MLP (Neural Network)  
-  - SVM  
-  - XGBoost  
-  - LightGBM  
-- Model Evaluation: MSE, RMSE, R² metrics  
-- Model Saving: Best model serialized for deployment  
+2. **Create Virtual Environment (Optional but Recommended)**
+   ```bash
+   # Windows
+    python -m venv venv
+    venv\Scripts\activate
 
----
+    # macOS/Linux
+    python3 -m venv venv
+    source venv/bin/activate
+   
+3. **Install Dependencies**
+    ```bash
+   pip install -r requirements.txt
 
-## 🧾 Input Features for Prediction
+4. **Run the Streamlit App**
+   ```bash
+   streamlit run app.py
 
-| Feature        | Description                          | Example           |
-| -------------- | ---------------------------------- | ----------------- |
-| **Age**        | User’s age (18–60 years)            | 29                |
-| **Gender**     | Male / Female                      | Male              |
-| **Weight (kg)**| Body weight in kilograms           | 68                |
-| **Height (cm)**| Height in centimeters              | 172               |
-| **Activity Level** | Sedentary, Lightly Active, Moderately Active, Very Active | Moderately Active |
-| **Exercise Type** | Walking, Running, Cycling, Swimming, Yoga | Running           |
-| **Target Calories** | Calories to burn in a day       | 500               |
 
----
+## 🌐 Deployment
+**Deployment Steps:**
+- Connected GitHub repo to Streamlit Cloud
+- Used relative file paths instead of absolute
+- Ensured all dependencies in requirements.txt
+- Tested all sections post-deployment
 
-## 🚀 How to Run the App Locally
-
-```bash
-# Clone the repo
-git clone https://github.com/your-username/exercise-duration-predictor.git
-
-# Change directory
-cd exercise-duration-predictor
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the Streamlit app
-streamlit run app.py
+## 🎯 Learning Outcomes
+- Built a complete ML pipeline from data preprocessing to deployment
+- Gained experience handling realistic data scenarios
+- Implemented and compared multiple regression models
+- Developed an interactive Streamlit app with good UX principles
+- Overcame cloud deployment challenges
+- Applied ML to solve real-world health & fitness problems
