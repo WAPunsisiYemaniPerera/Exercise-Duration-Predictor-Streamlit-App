@@ -5,9 +5,8 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 
 
-🔗 **GitHub Repository:** [Exercise Duration Predictor Streamlit App](https://github.com/WAPunsisiYemaniPerera/ExerciseDuration-Predictor-Streamlit-App)  
-🌐 **Live App:** [Streamlit Deployment](https://share.streamlit.io/WAPunsisiYemaniPerera/ExerciseDuration-Predictor-Streamlit-App/app.py)
-
+🔗 **GitHub Repository:** [[Exercise Duration Predictor Streamlit App](https://github.com/WAPunsisiYemaniPerera/ExerciseDuration-Predictor-Streamlit-App)](https://github.com/WAPunsisiYemaniPerera/Exercise-Duration-Predictor-Streamlit-App.git)  
+🌐 **Live App:** https://exercise-duration-predictor-app.streamlit.app/
 ---
 
 ## 📖 Project Overview
