@@ -6,6 +6,7 @@
 
 
 🔗 GitHub Repository: https://github.com/WAPunsisiYemaniPerera/Exercise-Duration-Predictor-Streamlit-App.git
+
 🌐 Live App: https://exercise-duration-predictor-app.streamlit.app/
 ---
 
